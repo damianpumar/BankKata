@@ -1,19 +1,24 @@
 public class Account implements AccountService {
-    private Transaction transaction;
+    private Transactions transactions;
     private IClockMachine clockMachine;
 
-    public Account(Transaction transaction, IClockMachine clockMachine) {
-        this.transaction = transaction;
+    public Account(Transactions transactions, IClockMachine clockMachine) {
+        this.transactions = transactions;
         this.clockMachine = clockMachine;
     }
 
     @Override
     public void deposit(int amount) {
-        this.transaction.add(amount, this.clockMachine.date());
+        this.transactions.add(amount, this.clockMachine.date());
     }
 
     @Override
     public void withdraw(int amount) {
-        this.transaction.add(amount, this.clockMachine.date());
+        this.transactions.add(amount, this.clockMachine.date());
+    }
+
+    @Override
+    public void printStatement() {
+        throw new UnsupportedOperationException();
     }
 }
