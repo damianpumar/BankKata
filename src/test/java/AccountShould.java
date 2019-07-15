@@ -23,14 +23,21 @@ public class AccountShould {
     @Before
     public void setup() {
         this.account = new Account(this.transaction, this.clockMachine);
+
+        when(this.clockMachine.date()).thenReturn(SYSTEM_DATE);
     }
 
     @Test
     public void store_a_deposit_transaction() {
-        when(this.clockMachine.date()).thenReturn(SYSTEM_DATE);
-
         this.account.deposit(1000);
 
         verify(this.transaction, times(1)).add(1000, SYSTEM_DATE);
+    }
+
+    @Test
+    public void store_a_withdrawal_transaction() {
+        this.account.withdraw(-100);
+
+        verify(this.transaction, times(1)).add(-1000, SYSTEM_DATE);
     }
 }

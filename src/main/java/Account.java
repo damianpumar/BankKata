@@ -11,4 +11,9 @@ public class Account implements AccountService {
     public void deposit(int amount) {
         this.transaction.add(amount, this.clockMachine.date());
     }
+
+    @Override
+    public void withdraw(int amount) {
+        throw new UnsupportedOperationException();
+    }
 }
