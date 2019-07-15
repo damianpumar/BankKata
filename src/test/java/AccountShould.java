@@ -34,16 +34,20 @@ public class AccountShould {
 
     @Test
     public void store_a_deposit_transaction() {
+        Transaction transaction = new Transaction(1000, SYSTEM_DATE);
+
         this.account.deposit(1000);
 
-        verify(this.transactions, times(1)).add(1000, SYSTEM_DATE);
+        verify(this.transactions, times(1)).add(transaction);
     }
 
     @Test
     public void store_a_withdrawal_transaction() {
-        this.account.withdraw(-100);
+        Transaction transaction = new Transaction(-100, SYSTEM_DATE);
 
-        verify(this.transactions, times(1)).add(-100, SYSTEM_DATE);
+        this.account.withdraw(100);
+
+        verify(this.transactions, times(1)).add(transaction);
     }
 
     @Test

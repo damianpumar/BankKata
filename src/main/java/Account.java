@@ -11,16 +11,20 @@ public class Account implements AccountService {
 
     @Override
     public void deposit(int amount) {
-        this.transactions.add(amount, this.clockMachine.date());
+        this.storeTransaction(amount);
     }
 
     @Override
     public void withdraw(int amount) {
-        this.transactions.add(amount, this.clockMachine.date());
+        this.storeTransaction(-amount);
     }
 
     @Override
     public void printStatement() {
         this.statementPrinter.print(this.transactions.getAll());
+    }
+
+    private void storeTransaction(int amount) {
+        this.transactions.add(new Transaction(amount, this.clockMachine.date()));
     }
 }

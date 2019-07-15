@@ -1,8 +1,7 @@
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Transactions {
-    public void add(int ammount, Date date) {
+    public void add(Transaction transaction) {
         throw new UnsupportedOperationException();
     }
 
