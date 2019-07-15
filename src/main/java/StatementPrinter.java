@@ -15,11 +15,28 @@ public class StatementPrinter {
     }
 
     public void print(ArrayList<Transaction> transactions) {
-        this.console.print(this.formatTransactions(transactions));
+        this.console.print(this.createStatementLines(transactions));
     }
 
-    private String formatTransactions(ArrayList<Transaction> transactions) {
+    private String createStatementLines(ArrayList<Transaction> transactions) {
+        List<String> bodyTransactions = formatTransactions(transactions);
+
+        return concatWithHeader(bodyTransactions);
+    }
+
+    private String concatWithHeader(List<String> bodyTransactions) {
+        String outputStatement = STATEMENT_HEADER;
+
+        for (String transaction : bodyTransactions) {
+            outputStatement += transaction;
+        }
+
+        return outputStatement;
+    }
+
+    private List<String> formatTransactions(ArrayList<Transaction> transactions) {
         int balance = 0;
+
         List<String> statement = new ArrayList();
 
         for (Transaction transaction : transactions) {
@@ -29,14 +46,7 @@ public class StatementPrinter {
         }
 
         Collections.reverse(statement);
-
-        String outputStatement = STATEMENT_HEADER;
-
-        for (String transaction : statement) {
-            outputStatement += transaction;
-        }
-
-        return outputStatement;
+        return statement;
     }
 
     private String formatTransaction(Transaction transaction, int balance) {
