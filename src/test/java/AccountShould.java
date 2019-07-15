@@ -27,7 +27,7 @@ public class AccountShould {
 
     @Before
     public void setup() {
-        this.account = new Account(this.transactions, this.clockMachine);
+        this.account = new Account(this.transactions, this.clockMachine, this.statementPrinter);
 
         when(this.clockMachine.date()).thenReturn(SYSTEM_DATE);
     }

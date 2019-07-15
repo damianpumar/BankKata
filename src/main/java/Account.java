@@ -1,10 +1,12 @@
 public class Account implements AccountService {
     private Transactions transactions;
     private IClockMachine clockMachine;
+    private StatementPrinter statementPrinter;
 
-    public Account(Transactions transactions, IClockMachine clockMachine) {
+    public Account(Transactions transactions, IClockMachine clockMachine, StatementPrinter statementPrinter) {
         this.transactions = transactions;
         this.clockMachine = clockMachine;
+        this.statementPrinter = statementPrinter;
     }
 
     @Override
@@ -19,6 +21,6 @@ public class Account implements AccountService {
 
     @Override
     public void printStatement() {
-        throw new UnsupportedOperationException();
+        this.statementPrinter.print(this.transactions.getAll());
     }
 }
