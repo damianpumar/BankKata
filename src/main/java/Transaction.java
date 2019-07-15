@@ -9,6 +9,14 @@ public class Transaction {
         this.date = date;
     }
 
+    public int amount() {
+        return this.amount;
+    }
+
+    public Date date() {
+        return this.date;
+    }
+
     @Override
     public boolean equals(Object obj) {
         Transaction transaction = (Transaction) obj;

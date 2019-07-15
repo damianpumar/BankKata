@@ -4,6 +4,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,22 +26,28 @@ public class StatementPrinterShould {
     }
 
     @Test
-    public void print_transactions_using_console() {
+    public void print_transactions_using_console() throws ParseException {
         ArrayList<Transaction> transactions = new ArrayList() {
             {
-                add(new Transaction(1000, new Date(2012, 10, 01)));
-                add(new Transaction(2000, new Date(2012, 13, 01)));
-                add(new Transaction(-500, new Date(2012, 14, 01)));
+                add(new Transaction(1000, createDate("10/01/2012")));
+                add(new Transaction(2000, createDate("13/01/2012")));
+                add(new Transaction(-500, createDate("14/01/2012")));
             }
         };
 
-        String outputExpected = "Date       || Amount || Balance\n" +
-                "14/01/2012 || -500   || 2500\n" +
-                "13/01/2012 || 2000   || 3000\n" +
-                "10/01/2012 || 1000   || 1000";
+        String outputExpected = "Date || Amount || Balance\n" +
+                "14/01/2012 || -500 || 2500\n" +
+                "13/01/2012 || 2000 || 3000\n" +
+                "10/01/2012 || 1000 || 1000";
 
         this.statementPrinter.print(transactions);
 
         verify(this.console, times(1)).print(outputExpected);
+    }
+
+    private Date createDate(String date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        return sdf.parse(date);
     }
 }
