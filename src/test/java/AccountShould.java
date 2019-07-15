@@ -6,8 +6,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Date;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountShould {
@@ -18,13 +17,18 @@ public class AccountShould {
     @Mock
     Transaction transaction;
 
+    @Mock
+    IClockMachine clockMachine;
+
     @Before
     public void setup() {
-        this.account = new Account();
+        this.account = new Account(this.transaction, this.clockMachine);
     }
 
     @Test
     public void store_a_deposit_transaction() {
+        when(this.clockMachine.date()).thenReturn(SYSTEM_DATE);
+
         this.account.deposit(1000);
 
         verify(this.transaction, times(1)).add(1000, SYSTEM_DATE);
