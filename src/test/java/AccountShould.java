@@ -38,6 +38,6 @@ public class AccountShould {
     public void store_a_withdrawal_transaction() {
         this.account.withdraw(-100);
 
-        verify(this.transaction, times(1)).add(-1000, SYSTEM_DATE);
+        verify(this.transaction, times(1)).add(-100, SYSTEM_DATE);
     }
 }
