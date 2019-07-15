@@ -1,11 +1,17 @@
 import java.util.ArrayList;
 
 public class Transactions {
+    private final ArrayList<Transaction> transactions;
+
+    public Transactions() {
+        this.transactions = new ArrayList();
+    }
+
     public void add(Transaction transaction) {
-        throw new UnsupportedOperationException();
+        this.transactions.add(transaction);
     }
 
     public ArrayList<Transaction> getAll() {
-        throw new UnsupportedOperationException();
+        return this.transactions;
     }
 }
