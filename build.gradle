@@ -1,5 +1,9 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     id 'java'
+    id 'jacoco'
 }
 
 group 'BankKata'
@@ -16,3 +20,51 @@ dependencies {
     compile 'org.mockito:mockito-core:2.28.2'
     compile 'org.assertj:assertj-core:3.12.2'
 }
+
+jacoco {
+    toolVersion = "0.8.2"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        events TestLogEvent.FAILED,
+                TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED,
+                TestLogEvent.STANDARD_OUT
+        exceptionFormat TestExceptionFormat.FULL
+        showExceptions true
+        showCauses true
+        showStackTraces true
+
+        debug {
+            events TestLogEvent.STARTED,
+                    TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED,
+                    TestLogEvent.STANDARD_ERROR,
+                    TestLogEvent.STANDARD_OUT
+            exceptionFormat TestExceptionFormat.FULL
+        }
+
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestReport
