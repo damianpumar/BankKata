@@ -25,4 +25,32 @@ public class TransactionsShould {
         for (Transaction storedTransaction : allTransactions)
             assertThat(storedTransaction).isSameAs(transaction);
     }
+
+    @Test
+    public void transaction_is_equal_to_other_transaction_when_both_has_same_amount_and_date() {
+        Date date = new Date();
+
+        Transaction transactionOne = new Transaction(100, date);
+        Transaction transactionTwo = new Transaction(100, date);
+
+        assertThat(transactionOne.equals(transactionTwo)).isTrue();
+    }
+
+    @Test
+    public void transaction_is_not_equal_to_other_transaction_when_both_has_different_amount() {
+        Date date = new Date();
+
+        Transaction transactionOne = new Transaction(100, date);
+        Transaction transactionTwo = new Transaction(101, date);
+
+        assertThat(transactionOne.equals(transactionTwo)).isFalse();
+    }
+
+    @Test
+    public void transaction_is_not_equal_to_other_transaction_when_both_has_different_date() {
+        Transaction transactionOne = new Transaction(100, new Date());
+        Transaction transactionTwo = new Transaction(100, new Date());
+
+        assertThat(transactionOne.equals(transactionTwo)).isFalse();
+    }
 }
